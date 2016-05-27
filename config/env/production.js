@@ -1,6 +1,6 @@
 
 module.exports = {
-  hostName: 'http://crsrd-tinyurl.herokuapp.com',
+  hostName: 'http://app.crsrd.co/',
   portNum: -1,
   enforceSSL:false
 };

@@ -2,11 +2,18 @@ var models = require('../models')
 var utils = require('../utils')
 
 function createTinyUrl(longUrl, callback) {
-  callback(null, 'http://app.crsrd.co/123')
+  utils.async.waterfall([
+    function(callback){
+      models.tinyUrl.createTinyUrl(longUrl, callback)
+    },function(tinyUrlHash,callback){
+      callback(null,utils.config.tinyUrlHost+tinyUrlHash)
+    }
+  ],callback)
+
 }
 
 function getLongUrl(tinyUrl, callback) {
-  callback(null, 'https://live.crossroadsapp.co/terms')
+  models.tinyUrl.getLongUrl(tinyUrl, callback)
 }
 
 module.exports = {

@@ -125,6 +125,21 @@ function signup(req, res) {
   )
 }
 
+function shortURL(req,res){
+  utils.l.d("shortUrl::"+req.param('shortPath')); //Returns a shorter version of http://google.com - http://tinyurl.com/2tx
+  service.tinyUrlService.getLongUrl(req.param('shortPath'),function(err,longURL){
+    if(err || ! longURL){
+      var errorObj = {error:"Invalid Link."}
+      routeUtils.handleAPIError(req,res,errorObj,errorObj)
+    }
+    else {
+      res.writeHead(302, {'Location': longURL});
+      res.end()
+    }
+  })
+}
+
+
 function logout(req, res) {
   req.logout()
   routeUtils.handleAPISuccess(req, res, {success: true})
@@ -136,12 +151,13 @@ function getSignupMessage(user){
 }
 
 function home(req,res){
-  res.render('home/index')
+  res.render('index')
 }
 /** Routes */
 routeUtils.rGetPost(router, '/login', 'Login', login, login)
 routeUtils.rPost(router, '/register', 'Signup', signup)
 routeUtils.rPost(router, '/logout', 'Logout', logout)
 routeUtils.rGet(router,'/','homePage',home,home)
+routeUtils.rGet(router,'/:shortPath','shortURLRedirect',shortURL,shortURL)
 module.exports = router
 

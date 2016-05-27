@@ -1,5 +1,7 @@
 var user = require('./userModel')
+var tinyUrl = require ('./tinyUrlModel')
 
 module.exports = {
-  user: user
+  user: user,
+  tinyUrl:tinyUrl
 }
